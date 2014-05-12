@@ -43,7 +43,7 @@ int isRunning = 0;
 int speed = 32;
 int eoc = 0;
 int idx = 0;
-
+long millisLastMove = 0;
 
 void setup()
 {  
@@ -56,6 +56,7 @@ void setup()
   stepper.setAcceleration(10);
   stepper.enableOutputs();
   memset(line, 0, MAXCOMMAND);
+  millisLastMove = millis();
 }
 
 
@@ -66,10 +67,16 @@ void loop(){
   {
     if (isRunning) {
       stepper.run();
+      millisLastMove = millis();
     } 
     else {
-      stepper.disableOutputs();
-      motor1.release();
+      // reported on INDI forum that some steppers "stutter" if disableOutputs is done repeatedly
+      // over a short interval; hence we only disable the outputs and release the motor some seconds
+      // after movement has stopped
+      if ((millis() - millisLastMove) > 15000) {
+        stepper.disableOutputs();
+        motor1.release();
+      }
     }
 
     if (stepper.distanceToGo() == 0) {

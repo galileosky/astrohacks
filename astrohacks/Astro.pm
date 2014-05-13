@@ -1,3 +1,12 @@
+# handy astronomical routines
+#
+# orly.andico@gmail.com 2013-2014
+#
+# this package provides wrappers for capturing FITS images (with SBIG cameras and the SBIG testapp sample
+# application); plate-solving with a local Astrometry.net blind solver; routines for controlling an
+# Astro-Physics GTO mount (only tested with an "S" firmware revision Mach1GTO); and general-purpose
+# astronomical functions
+
 package Astro;
 
 use strict;
@@ -7,11 +16,42 @@ use Device::SerialPort qw ( :PARAM :STAT 0.07 );
 use Time::HiRes;
 use Astro::Time;
 
-$VERSION = 0.01;
-@ISA     = qw(Exporter);
-@EXPORT  = ();
-@EXPORT_OK =
-  qw(sendCmd getVer getRA getDEC getALT getAZ setGuideRate move stop pulseGuide setLongitude getLst getHa DEBUG LONGITUDE PATH_TO_TESTAPP PATH_TO_DSICMD);
+$VERSION   = 0.02;
+@ISA       = qw(Exporter);
+@EXPORT    = ();
+@EXPORT_OK = qw(calcRefractedRate
+  calcRefraction
+  captureDSI
+  captureSBIG
+  conv_DEC_to_decimal
+  conv_DEC_to_dms
+  conv_RA_to_decimal
+  conv_RA_to_hms
+  getALT
+  getAZ
+  getDEC
+  getHa
+  getLatitude
+  getLst
+  getPierSide
+  getRA
+  getVer
+  move
+  moveDur
+  platesolve
+  pulseGuide
+  sendCmd
+  sendRCAL
+  setALTAZ
+  setDecRate
+  setGuideRate
+  setLongitude
+  setRADEC
+  setRaRate
+  slew
+  slewALTAZ
+  stop
+  DEBUG LONGITUDE PATH_TO_TESTAPP PATH_TO_DSICMD);
 
 our $DEBUG   = 0;
 our $VERSION = "G";
@@ -24,7 +64,8 @@ our $PATH_TO_DSICMD  = "/home/orly/astrometry-data/dsicmd";
 # we have a hard-coded value..
 our $LONGITUDE = +103.8;
 
-sub setLongitude() {
+# longitude is needed to calculate the LST and Hour Angle
+sub setLongitude {
     my ($long) = @_;
 
     $LONGITUDE = $long;
@@ -533,8 +574,11 @@ sub getHa {
     return ( sprintf( "%3.5f", $ha ) );
 }
 
+
 # calculate the refraction offset due to altitude
-# from Mel Bartels
+# derived from Mel Bartels' Javascript algorithm at
+#
+# http://www.bbastrodesigns.com/equatTrackingRatesCalc.html
 
 sub calcRefraction {
     my ($altitude) = @_;
@@ -587,7 +631,7 @@ sub calcRefraction {
 }
 
 # calculate the refracted tracking rate for a given altitude
-# this agrees with Mel Bartel's equation at
+# this agrees with Mel Bartels' equation at
 #
 # http://www.bbastrodesigns.com/equatTrackingRatesCalc.html
 #

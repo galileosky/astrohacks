@@ -60,6 +60,10 @@ open( F, "<$fname" ) or die "Failed to open $fname\n";
 my $regRA  = Statistics::Regression->new( "RA",  [ "Const", "HA" ] );
 my $regDEC = Statistics::Regression->new( "DEC", [ "Const", "HA" ] );
 
+# we also need to calculate the refraction-corrected tracking rate
+# at the time the model was created..
+my $avgRefractedRate = 0;
+my $nItems           = 0;
 while ( chomp( my $line = <F> ) ) {
     my @v = split( /,/, $line );
 
@@ -67,15 +71,29 @@ while ( chomp( my $line = <F> ) ) {
 
         # the hour angle is our independent variable
         # RA and DEC in arc-seconds
-        my $ha      = $v[0];    # * 3600;
-        my $calcRA  = $v[5];    # * 3600;
-        my $calcDEC = $v[6];    # * 3600;
+        my $ha      = $v[0];
+        my $calcRA  = $v[5];
+        my $calcDEC = $v[6];
+
+        my $alt = $v[1];
 
         $regRA->include( $calcRA, [ 1.0, $ha ] );
         $regDEC->include( $calcDEC, [ 1.0, $ha ] );
+
+        $nItems++;
+        $avgRefractedRate += Astro::calcRefractedRate($alt);
     }
 }
 close(F);
+
+$avgRefractedRate /= $nItems;
+$avgRefractedRate = sprintf("%2.4f", $avgRefractedRate);
+
+# must apply this factor to correct for refraction
+my $refCorr = $avgRefractedRate - 15.04108;
+
+print STDERR
+  "Average refracted rate during model capture is $avgRefractedRate ($refCorr)\n";
 
 #$regRA->print;
 #$regDEC->print;

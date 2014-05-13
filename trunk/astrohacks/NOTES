@@ -1,0 +1,121 @@
+orly@Latitude-E6320:~/astrometry-data$ date
+Sun Mar  9 21:30:54 SGT 2014
+orly@Latitude-E6320:~/astrometry-data$ date
+Sun Mar  9 21:36:35 SGT 2014
+orly@Latitude-E6320:~/astrometry-data$ 
+
+
+
+orly@Latitude-E6320:~/astrometry-data$ sudo ./getModelData.pl 
+Found firmware revision: S
+Plate-solving /tmp/LF_2014-03-09T213110.567.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+Solved RA/DEC 83.8419/22.0195, pixel scale 5.46369
+Mount RA/DEC 83.8417 22.0194
+Mount RA/DEC after sync: 83.8425 22.0194
+29.91180, 53.5864, 306.9572, 83.8425, 22.0194, 83.8419, 22.0195
+Capturing 1/10
+Plate-solving /tmp/LF_2014-03-09T213142.576.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: divide by zero encountered in log
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: invalid value encountered in multiply
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+32.43070, 51.5522, 305.0814, 81.3375, 22.0194, 81.323, 22.0215
+Capturing 2/10
+Plate-solving /tmp/LF_2014-03-09T213221.564.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+34.94850, 49.3458, 303.3247, 78.8325, 22.0194, 78.8052, 22.0222
+Capturing 3/10
+Plate-solving /tmp/LF_2014-03-09T213250.572.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+37.46640, 47.1328, 301.8014, 76.3275, 22.0194, 76.2873, 22.0215
+Capturing 4/10
+Plate-solving /tmp/LF_2014-03-09T213320.576.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+39.98610, 44.8850, 300.4525, 73.8225, 22.0194, 73.7676, 22.0205
+Capturing 5/10
+Plate-solving /tmp/LF_2014-03-09T213349.576.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: divide by zero encountered in log
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: invalid value encountered in multiply
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+42.50530, 42.5981, 299.2600, 71.3175, 22.0194, 71.2484, 22.0188
+Capturing 6/10
+Plate-solving /tmp/LF_2014-03-09T213422.573.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+45.02460, 40.2800, 298.1972, 68.8125, 22.0194, 68.7291, 22.0142
+Capturing 7/10
+Plate-solving /tmp/LF_2014-03-09T213451.574.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: divide by zero encountered in log
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: invalid value encountered in multiply
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+47.54540, 37.9586, 297.2622, 66.3075, 22.0194, 66.2083, 22.01
+Capturing 8/10
+Plate-solving /tmp/LF_2014-03-09T213522.569.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+50.06470, 35.6133, 296.4325, 63.8025, 22.0194, 63.689, 22.0055
+Capturing 9/10
+Plate-solving /tmp/LF_2014-03-09T213552.573.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: divide by zero encountered in log
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+/usr/local/astrometry/bin/removelines.py:27: RuntimeWarning: invalid value encountered in multiply
+  logpoisson = k*log(mean) - mean - array([sum(arange(kk)) for kk in k])
+52.58720, 33.2514, 295.6989, 61.2975, 22.0194, 61.1665, 21.998
+Capturing 10/10
+Plate-solving /tmp/LF_2014-03-09T213621.564.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+55.10530, 30.8783, 295.0528, 58.7925, 22.0194, 58.6484, 21.9907
+orly@Latitude-E6320:~/astrometry-data$ sudo ./solveNrcal.pl 
+Found firmware revision: S
+Plate-solving /tmp/LF_2014-03-09T213727.570.fits (working dir /tmp)
+Header has 42 cards
+Computing image percentiles...
+Solved RA/DEC 83.8315 22.0231, pixel scale 5.46593
+Mount RA/DEC: 83.8421 22.0194
+Delta RA/DEC: 38 -14
+orly@Latitude-E6320:~/astrometry-data$ ls
+1_300_ug.fits                  dsicmd           Model-Eskimo-7Mar-2338.csv
+7_300s_ra-00030_dec00002.fits  getModelData.pl  NOTES
+8_600s_ra-00030_dec00002.fits  gotoALTAZ.pl     old
+9_900s_ra-00030_dec00002.fits  goto.pl          polar.pl
+Astro.pm                       IC434            polyCoeff.txt
+calcCustomRates.pl             meadeDSI.sh      solveNrcal.pl
+cancelRates.pl                 MEADE_OPTIONS    solve.pl
+capture.pl                     Model.csv        testapp
+orly@Latitude-E6320:~/astrometry-data$ sudo ./calcCustomRates.pl Model.csv 
+Set custom DEC rate to 0.0000
+Set custom RA rate to 0.0000
+Attempting to process Model.csv
+9017 9068 14.9565 7 0.0116
+9018 9064 14.9647 2 0.0033
+9017 9064 14.9631 -3 -0.0050
+9017 9070 14.9532 -4 -0.0066
+9018 9069 14.9565 -7 -0.0116
+9017 9069 14.9548 -17 -0.0282
+9017 9074 14.9466 -16 -0.0265
+9018 9069 14.9565 -17 -0.0282
+9018 9081 14.9367 -28 -0.0464
+
+Average RA Rate:  +14.9543 (-0.0058)
+Average DEC Rate: -0.0153 (-0.0010)
+
+Writing custom rates to mount..
+Set custom DEC rate to -0.0010
+Set custom RA rate to -0.0058
+

@@ -1,0 +1,5 @@
+-c count
+-e exposure_time
+-o outputfile
+-q = quiet
+

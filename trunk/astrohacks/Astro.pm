@@ -539,6 +539,11 @@ sub getHa {
 sub calcRefraction {
     my ($altitude) = @_;
 
+    # short-circuit it
+    if ( $altitude < 0 ) {
+        return (42.75);
+    }
+
     # refraction correction table
     # altitude vs arc-minutes correction
     my %refTable = (
@@ -563,7 +568,7 @@ sub calcRefraction {
     my $idx2;
     foreach (@alts) {
         $idx1 = $_;
-        if ( $altitude > $idx1 * 1.00 ) {
+        if ( $altitude > ( $idx1 * 1.00 ) ) {
             last;
         }
         $idx2 = $idx1;
@@ -579,6 +584,30 @@ sub calcRefraction {
     # return in arc-minutes
     my $arcmin = sprintf( "%2.2f", $newcorr );
     return ($arcmin);
+}
+
+# calculate the refracted tracking rate for a given altitude
+# this agrees with Mel Bartel's equation at
+#
+# http://www.bbastrodesigns.com/equatTrackingRatesCalc.html
+#
+# for altitudes down to 11 degrees or so which should be good enough for
+# most observational purposes
+
+sub calcRefractedRate {
+    my ($alt1) = @_;
+    my $alt2 = $alt1 - 1;
+
+    my $f1 = Astro::calcRefraction($alt1);
+    my $f2 = Astro::calcRefraction($alt2);
+
+    my $alt1_fix = $alt1 - ( $f1 / 60 );
+    my $alt2_fix = $alt2 - ( $f2 / 60 );
+
+    my $correction = ( $alt1 - $alt2 ) / ( $alt1_fix - $alt2_fix );
+    my $correctedRate = 15.04108 * $correction;
+
+    return ($correctedRate);
 }
 
 1;

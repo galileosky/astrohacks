@@ -576,7 +576,7 @@ sub calcRefraction {
     my $cslope = ( $corr1 - $corr2 ) / ( $idx2 - $idx1 );
     my $newcorr = $corr1 - ( $cslope * ( $altitude - $idx1 ) );
 
-    # return in arc-seconds
+    # return in arc-minutes
     my $arcmin = sprintf( "%2.2f", $newcorr );
     return ($arcmin);
 }

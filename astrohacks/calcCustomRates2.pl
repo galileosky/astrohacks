@@ -67,9 +67,9 @@ while ( chomp( my $line = <F> ) ) {
 
         # the hour angle is our independent variable
         # RA and DEC in arc-seconds
-        my $ha      = $v[0]; # * 3600;
-        my $calcRA  = $v[5]; # * 3600;
-        my $calcDEC = $v[6]; # * 3600;
+        my $ha      = $v[0];    # * 3600;
+        my $calcRA  = $v[5];    # * 3600;
+        my $calcDEC = $v[6];    # * 3600;
 
         $regRA->include( $calcRA, [ 1.0, $ha ] );
         $regDEC->include( $calcDEC, [ 1.0, $ha ] );
@@ -93,17 +93,21 @@ my $rawDecRate = $thetaDEC[1];
 
 # depending on which side of the pier we are on, the custom DEC rate
 # must change sign, as +DEC is always clockwise
-my $pierside = Astro::getPierSide($port);
+my $pierside = "East";
+my $lat      = 0;
+if ($canConnect) {
+    $pierside = Astro::getPierSide($port);
+    $lat      = Astro::getLatitude($port);
+
+}
 
 if ( $pierside eq "East" ) {
     $rawDecRate *= -1;
     print STDERR "Telescope is on east side, reversing DEC correction\n";
 }
 
-my $lat = Astro::getLatitude($port);
-
-if ($lat < 0) {
-   $rawRaRate *= -1;
+if ( $lat < 0 ) {
+    $rawRaRate *= -1;
 }
 
 my $corrRaRate  = sprintf( "%+2.4f", $rawRaRate );
@@ -114,14 +118,27 @@ print STDERR "DEC Rate: $corrDecRate (R^2 = $rsqDEC)\n";
 
 # set the custom speeds
 if ($canConnect) {
+
+    # get the mount's current altitude for refraction correction
+    my $alt           = Astro::getALT($port);
+    my $refractedRate = Astro::getRefractedRate($alt);
+
+    print STDERR "Refracted rate at altitude $alt is $refractedRate\n";
+    my $refCorr = sprintf( "%+2.4f", ( $refractedRate - 15.04108 ) / 15.04108 );
+
+    print STDERR "Refracted rate correction is $refCorr\n";
+
     print STDERR "\nWriting custom rates to mount..\n";
     Astro::setGuideRate($port);
 
     # only set the custom rates if our confidence level is high enough
-    if ( $rsqRA > 0.500 ) {
-        Astro::setRaRate( $port, $corrRaRate );
+    if ( $rsqRA > 0.700 ) {
+        Astro::setRaRate( $port, $corrRaRate + $refCorr );
     }
-    if ( $rsqDEC > 0.500 ) {
+    else {
+        Astro::setRaRate( $port, $refCorr );
+    }
+    if ( $rsqDEC > 0.700 ) {
         Astro::setDecRate( $port, $corrDecRate );
     }
 }

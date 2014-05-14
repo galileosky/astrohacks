@@ -574,140 +574,94 @@ sub getHa {
     return ( sprintf( "%3.5f", $ha ) );
 }
 
-
-# calculate the refraction offset due to altitude
-# derived from Mel Bartels' Javascript algorithm at
-#
-# http://www.bbastrodesigns.com/equatTrackingRatesCalc.html
-
-sub calcRefraction {
-    my ($altitude) = @_;
-
-    # short-circuit it
-    if ( $altitude < 0 ) {
-        return (42.75);
-    }
-
-    # refraction correction table
-    # altitude vs arc-minutes correction
-    my %refTable = (
-        "90" => "0",
-        "60" => "0.55",
-        "30" => "1.7",
-        "20" => "2.6",
-        "15" => "3.5",
-        "10" => "5.2",
-        "08" => "6.4",
-        "06" => "8.3",
-        "04" => "11.5",
-        "02" => "18",
-        "00" => "34.5",
-        "-1" => "42.75"
-    );
-
-    # perl hash keys aren't sorted and we need to sort them
-    my @alts = sort { $b cmp $a } keys %refTable;
-
-    my $idx1;
-    my $idx2;
-    foreach (@alts) {
-        $idx1 = $_;
-        if ( $altitude > ( $idx1 * 1.00 ) ) {
-            last;
-        }
-        $idx2 = $idx1;
-    }
-
-    my $corr1 = $refTable{"$idx1"};
-    my $corr2 = $refTable{"$idx2"};
-
-    # interpolate
-    my $cslope = ( $corr1 - $corr2 ) / ( $idx2 - $idx1 );
-    my $newcorr = $corr1 - ( $cslope * ( $altitude - $idx1 ) );
-
-    # return in arc-minutes
-    my $arcmin = sprintf( "%2.2f", $newcorr );
-    return ($arcmin);
-}
-
-
 # calculate the refraction offset due to altitude
 # derived from Mel Bartels' Javascript algorithm at
 #
 # http://www.bbastrodesigns.com/equatTrackingRatesCalc.html
 #
 # this version doesn't use hashes so should be more amenable to Arduino or C/C++ implementation
-sub calcRefraction2 {
+sub calcRefraction {
     my ($altitude) = @_;
 
-	# short-circuit; these are "never hit" corner cases so return the default sidereal rate
-	if ($altitude > 90) {
-		return (15.04108);
-	} elsif ($altitude < 0) {
-		return (15.04108);
-	}
-	
-	my $corr1 = 0;
-	my $corr2 = 0;
-	my $alt1 = 0;
-	my $alt2 = 0;
-	
-	if ($altitude >= 60.0) {
-		$corr1 = 0.55;
-		$corr2 = 0;
-		$alt1 = 60.0;
-		$alt2 = 90.0;
-	} elsif ($altitude >= 30.0) {
-		$corr1 = 1.7;
-		$corr2 = 0.55;
-		$alt1 = 30.0;
-		$alt2 = 60.0;
-	} elsif ($altitude >= 20.0) {
-		$corr1 = 2.6;
-		$corr2 = 1.7;
-		$alt1 = 20.0;
-		$alt2 = 30.0;
-	} elsif ($altitude >= 15.0) {
-		$corr1 = 3.5;
-		$corr2 = 2.6;
-		$alt1 = 15.0;
-		$alt2 = 20.0;
-	} elsif ($altitude >= 10.0) {
-		$corr1 = 5.2;
-		$corr2 = 3.5;
-		$alt1 = 10.0;
-		$alt2 = 15.0;
-	} elsif ($altitude >= 8.0) {
-		$corr1 = 6.4;
-		$corr2 = 5.2;
-		$alt1 = 8.0;
-		$alt2 = 10.0;
-	} elsif ($altitude >= 6.0) {
-		$corr1 = 8.3;
-		$corr2 = 6.4;
-		$alt1 = 6.0;
-		$alt2 = 8.0;
-	} elsif ($altitude >= 4.0) {
-		$corr1 = 11.5;
-		$corr2 = 8.3;
-		$alt1 = 4.0;
-		$alt2 = 6.0;
-	} elsif ($altitude >= 2.0) {
-		$corr1 = 18.0;
-		$corr2 = 11.5;
-		$alt1 = 2.0;
-		$alt2 = 4.0;
-	} elsif ($altitude >= 0.0) {
-		$corr1 = 34.5;
-		$corr2 = 18.0;
-		$alt1 = 0.0;
-		$alt2 = 2.0;
-	} else {
-		$corr1 = 42.75;
-		$corr2 = 34.5;
-		$alt1 = -1.0;
-		$alt2 = 0.0;
-	}
+# short-circuit; these are "never hit" corner cases so return the default sidereal rate
+    if ( $altitude > 90 ) {
+        return (15.04108);
+    }
+    elsif ( $altitude < 0 ) {
+        return (15.04108);
+    }
+
+    my $corr1 = 0;
+    my $corr2 = 0;
+    my $alt1  = 0;
+    my $alt2  = 0;
+
+    if ( $altitude >= 60.0 ) {
+        $corr1 = 0.55;
+        $corr2 = 0;
+        $alt1  = 60.0;
+        $alt2  = 90.0;
+    }
+    elsif ( $altitude >= 30.0 ) {
+        $corr1 = 1.7;
+        $corr2 = 0.55;
+        $alt1  = 30.0;
+        $alt2  = 60.0;
+    }
+    elsif ( $altitude >= 20.0 ) {
+        $corr1 = 2.6;
+        $corr2 = 1.7;
+        $alt1  = 20.0;
+        $alt2  = 30.0;
+    }
+    elsif ( $altitude >= 15.0 ) {
+        $corr1 = 3.5;
+        $corr2 = 2.6;
+        $alt1  = 15.0;
+        $alt2  = 20.0;
+    }
+    elsif ( $altitude >= 10.0 ) {
+        $corr1 = 5.2;
+        $corr2 = 3.5;
+        $alt1  = 10.0;
+        $alt2  = 15.0;
+    }
+    elsif ( $altitude >= 8.0 ) {
+        $corr1 = 6.4;
+        $corr2 = 5.2;
+        $alt1  = 8.0;
+        $alt2  = 10.0;
+    }
+    elsif ( $altitude >= 6.0 ) {
+        $corr1 = 8.3;
+        $corr2 = 6.4;
+        $alt1  = 6.0;
+        $alt2  = 8.0;
+    }
+    elsif ( $altitude >= 4.0 ) {
+        $corr1 = 11.5;
+        $corr2 = 8.3;
+        $alt1  = 4.0;
+        $alt2  = 6.0;
+    }
+    elsif ( $altitude >= 2.0 ) {
+        $corr1 = 18.0;
+        $corr2 = 11.5;
+        $alt1  = 2.0;
+        $alt2  = 4.0;
+    }
+    elsif ( $altitude >= 0.0 ) {
+        $corr1 = 34.5;
+        $corr2 = 18.0;
+        $alt1  = 0.0;
+        $alt2  = 2.0;
+    }
+    else {
+        $corr1 = 42.75;
+        $corr2 = 34.5;
+        $alt1  = -1.0;
+        $alt2  = 0.0;
+    }
 
     # interpolate
     my $cslope = ( $corr1 - $corr2 ) / ( $alt2 - $alt1 );
@@ -717,7 +671,6 @@ sub calcRefraction2 {
     my $arcmin = sprintf( "%2.2f", $newcorr );
     return ($arcmin);
 }
-
 
 # calculate the refracted tracking rate for a given altitude
 # this agrees with Mel Bartels' equation at
@@ -734,8 +687,8 @@ sub calcRefractedRate {
     my $f1 = Astro::calcRefraction($alt1);
     my $f2 = Astro::calcRefraction($alt2);
 
-    my $alt1_fix = $alt1 - ( $f1 / 60 );
-    my $alt2_fix = $alt2 - ( $f2 / 60 );
+    my $alt1_fix = $alt1 + ( $f1 / 60 );
+    my $alt2_fix = $alt2 + ( $f2 / 60 );
 
     my $correction = ( $alt1 - $alt2 ) / ( $alt1_fix - $alt2_fix );
     my $correctedRate = 15.04108 * $correction;

@@ -53,8 +53,11 @@ $VERSION   = 0.02;
   stop
   DEBUG LONGITUDE PATH_TO_TESTAPP PATH_TO_DSICMD);
 
-our $DEBUG   = 0;
-our $VERSION = "G";
+our $DEBUG = 0;
+
+# AP GTO firmware version; determines whether we can use PulseGuide
+# command or not
+our $FWVERSION = "G";
 
 # hard-coded path to the SBIG capture program
 our $PATH_TO_TESTAPP = "/home/orly/astrometry-data/testapp";
@@ -103,7 +106,7 @@ sub getVer {
     my $ver = sendCmd( $port, ":V#", 1 );
 
     # store the version in a global variable
-    $VERSION = $ver;
+    $FWVERSION = $ver;
 
     return ($ver);
 }
@@ -292,7 +295,7 @@ sub stop {
 sub pulseGuide {
     my ( $port, $dir, $ms ) = @_;
 
-    if ( $VERSION eq "S" ) {
+    if ( $FWVERSION eq "S" ) {
         Astro::moveDur( $port, $dir, $ms );
     }
     else {
@@ -585,10 +588,10 @@ sub calcRefraction {
 
 # short-circuit; these are "never hit" corner cases so return the default sidereal rate
     if ( $altitude > 90 ) {
-        return (15.04108);
+        return (0);
     }
     elsif ( $altitude < 0 ) {
-        return (15.04108);
+        return (42.75);
     }
 
     my $corr1 = 0;

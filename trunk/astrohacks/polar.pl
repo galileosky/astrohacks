@@ -106,7 +106,7 @@ if ($deltaDec > 100) {
 # compute polar misalignment - from http://celestialwonders.com/tools/polarErrorCalc.html
 # note we moved 2.50666 degrees above, equivalent to 10 minutes of time
 my $rate = abs($deltaDec / 600)
-my $azErr = 12 / pi * $rate / cos($dec / 57.296)
+my $azErr = 12 / pi * $rate / cos($mount_dec / 57.296)
 
 my $azErr = POSIX::floor( ( $deltaDec / $corrFactor ) / 2 );
 my $turns = $azErr / 3;

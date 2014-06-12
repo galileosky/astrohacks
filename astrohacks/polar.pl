@@ -105,7 +105,11 @@ if ($deltaDec > 100) {
 
 # compute polar misalignment - from http://celestialwonders.com/tools/polarErrorCalc.html
 # note we moved 2.50666 degrees above, equivalent to 10 minutes of time
-my $rate = abs($deltaDec / 600)
+#
+# 1) drift (deltaDec) should be in arc-seconds
+# 2) deltaT should be in minutes
+
+my $rate = abs($deltaDec / 10)
 my $azErr = 12 / pi * $rate / cos($mount_dec / 57.296)
 
 # Mach1 has 3 arc-minutes per ridge on the azimuth knob

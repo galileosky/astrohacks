@@ -3,6 +3,7 @@ use lib '.';
 use strict;
 use Device::SerialPort qw ( :PARAM :STAT 0.07 );
 use Time::HiRes;
+use Math::Trig;
 use Astro;
 
 my $dev = "/dev/ttyUSB0";    # change me!
@@ -102,12 +103,10 @@ if ($deltaDec > 100) {
 	die "Failed solve\n";
 }
 
-# correct for declination
-my $corrFactor = cos( $dec / 57.296 );
-
-# rule of thumb: 1" of drift in a declination 0 star in 5 minutes
-# is 1 arc-minute of misalignment in azimuth
-# since 2.51 degrees is 10 minutes..
+# compute polar misalignment - from http://celestialwonders.com/tools/polarErrorCalc.html
+# note we moved 2.50666 degrees above, equivalent to 10 minutes of time
+my $rate = abs($deltaDec / 600)
+my $azErr = 12 / pi * $rate / cos($dec / 57.296)
 
 my $azErr = POSIX::floor( ( $deltaDec / $corrFactor ) / 2 );
 my $turns = $azErr / 3;

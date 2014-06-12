@@ -108,8 +108,9 @@ if ($deltaDec > 100) {
 my $rate = abs($deltaDec / 600)
 my $azErr = 12 / pi * $rate / cos($mount_dec / 57.296)
 
-my $azErr = POSIX::floor( ( $deltaDec / $corrFactor ) / 2 );
-my $turns = $azErr / 3;
+# Mach1 has 3 arc-minutes per ridge on the azimuth knob
+# for third-party mount, can use "star offset method" here
+my $turns = POSIX::floor($azErr / 3);
 my $dir;
 
 if ($orientation eq "WEST") {

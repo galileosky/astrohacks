@@ -1,0 +1,117 @@
+C	Copyright Eric Fuller, 2001-2007
+C	This subroutine was derived from an example in
+C	Numerical Recipes in C
+
+	SUBROUTINE SORT(MFIT,MA,AI,COVAR,BETA)
+
+	INCLUDE 'pfit.cmn'
+
+	INTEGER*4 MFIT,MA,AI(MMAX)
+	REAL*8 COVAR(MMAX,MMAX),BETA(MMAX)
+
+	INTEGER*4 J,K
+
+
+
+C	SORT PARAMETERS
+
+	MFIT=0
+	DO J=1,MA
+	  IF (AI(J) .NE. 0) MFIT=MFIT+1
+	  ENDDO
+	WRITE(*,10) MFIT
+
+	IF (MFIT .EQ. 0) PAUSE 'No Parameters to be fitted.'
+
+	DO J=1,MFIT
+	  DO K=1, MFIT
+	    COVAR(J,K)=0.0
+	    ENDDO
+	  BETA(J)=0.0
+	  ENDDO
+
+
+
+10	FORMAT('Fitted Parameters : ',I5)
+
+
+
+	RETURN
+
+	END
+
+
+
+
+
+
+	SUBROUTINE BUILD(NDAT,MFIT,X1,X2,AFUNC1,AFUNC2,MA,PHI,
+     *  Y1,Y2,SIG1,SIG2,
+     *  COVAR,BETA,A,AI)
+
+	INCLUDE 'pfit.cmn'
+
+	INTEGER*4 NDAT,MFIT
+	REAL*8 X1(NMAX),X2(NMAX),AFUNC1(MMAX),AFUNC2(MMAX)
+	INTEGER*4 MA
+	REAL*8 PHI
+	REAL*8 Y1(NMAX),Y2(NMAX),SIG1(NMAX),SIG2(NMAX)
+	REAL*8 COVAR(MMAX,MMAX),BETA(MMAX),A(MMAX)
+	INTEGER*4 AI(MMAX)
+
+	REAL*8 YM1,YM2,WT1,WT2,SIG2I1,SIG2I2
+	INTEGER*4 I,J,K,L
+
+	EXTERNAL FUNCS
+
+
+
+C	BUILD MATRIX
+
+	DO I=1,NDAT
+	  CALL FUNCS(X1(I),X2(I),AFUNC1,AFUNC2,MA,PHI)
+
+	  YM1=Y1(I)
+	  YM2=Y2(I)
+
+	  IF (MFIT .LT. MA) THEN
+	    DO J=1,MA
+	      IF(AI(J).EQ.0) THEN
+	        YM1=YM1-A(J)*AFUNC1(J)
+	        YM2=YM2-A(J)*AFUNC2(J)
+	        ENDIF
+	      ENDDO
+	    ENDIF
+	  SIG2I1=1.0/SIG1(I)**2
+	  SIG2I2=1.0/SIG2(I)**2
+	  J=0
+	  DO L=1,MA
+	    IF (AI(L).NE.0) THEN
+	      J=J+1
+	      WT1=AFUNC1(L)*SIG2I1
+	      WT2=AFUNC2(L)*SIG2I2
+	      K=0
+	      DO M=1,L
+	        IF (AI(M).NE.0) THEN
+	          K=K+1
+	          COVAR(J,K)=COVAR(J,K)+WT1*AFUNC1(M)+WT2*AFUNC2(M)
+	          ENDIF
+	        ENDDO
+	      BETA(J)=BETA(J)+YM1*WT1+YM2*WT2
+	      ENDIF
+	    ENDDO
+	  ENDDO
+	DO J=2,MFIT
+	  DO K=1,J-1
+	    COVAR(K,J)=COVAR(J,K)
+	    ENDDO
+	  ENDDO
+
+
+
+	RETURN
+
+	END
+
+
+

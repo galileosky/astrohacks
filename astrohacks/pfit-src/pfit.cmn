@@ -1,0 +1,7 @@
+        INTEGER*4 NMAX,MMAX
+        REAL*8 TOL,D2R,H2R
+
+        PARAMETER(NMAX=1000,MMAX=20,
+     *    TOL=1.0E-8,
+     *    D2R=0.01745329252,
+     *    H2R=0.2617993878)

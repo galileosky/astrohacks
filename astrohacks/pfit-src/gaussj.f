@@ -1,0 +1,102 @@
+C	Copyright Eric Fuller, 2001-2007
+C	This subroutine was derived from a subroutine of the same
+C	name in Numerical Recipes in C
+
+      SUBROUTINE GAUSSJ(A,N,NP,BETA)
+
+C	GAUSSIAN ELIMINATION WITH ROW AND COLUMN PIVOTING.
+C	THIS IS SIMILAR TO THE NUMERICAL RECIPES ROUTINE
+C	BUT IT IS NOT THE SAME ROUTINE.
+
+	INCLUDE 'pfit.cmn'
+
+	PARAMETER(M=1,MP=1)
+
+	INTEGER*4 N,NP
+	REAL*8 A(NP,NP),BETA(NP,MP)
+	INTEGER*4 IPIV(NMAX),INDXR(NMAX),INDXC(NMAX)
+
+	INTEGER*4 I,ICOL,IROW,J,K,L,LL
+	REAL*8 BIG,DUM,PIVINV
+
+
+
+C	INITIALISE PIVOT TABLE
+
+      DO J=1,N
+	IPIV(J)=0
+	ENDDO
+
+      DO I=1,N
+
+	BIG=0.0
+	DO J=1,N
+	  IF(IPIV(J).NE.1)THEN
+	    DO K=1,N
+	      IF (IPIV(K).EQ.0) THEN
+		IF (ABS(A(J,K)).GE.BIG)THEN
+		  BIG=ABS(A(J,K))
+		  IROW=J
+		  ICOL=K
+		ENDIF
+	      ELSE IF (IPIV(K).GT.1) THEN
+		PAUSE 'Singular matrix in gaussj.'
+	      ENDIF
+	    ENDDO
+	  ENDIF
+	  ENDDO
+	IPIV(ICOL)=IPIV(ICOL)+1
+
+	IF (IROW.NE.ICOL) THEN
+	  DO L=1,N
+	    DUM=A(IROW,L)
+	    A(IROW,L)=A(ICOL,L)
+	    A(ICOL,L)=DUM
+	    ENDDO
+	  DO L=1,M
+	    DUM=BETA(IROW,L)
+	    BETA(IROW,L)=BETA(ICOL,L)
+	    BETA(ICOL,L)=DUM
+	    ENDDO
+	  ENDIF
+
+	INDXR(I)=IROW
+	INDXC(I)=ICOL
+
+	IF (A(ICOL,ICOL).EQ.0.0) PAUSE 'Singular matrix in gaussj.'
+	PIVINV=1.0/A(ICOL,ICOL)
+	A(ICOL,ICOL)=1.0
+	DO L=1,N
+	  A(ICOL,L)=A(ICOL,L)*PIVINV
+	  ENDDO
+	DO L=1,M
+	  BETA(ICOL,L)=BETA(ICOL,L)*PIVINV
+	  ENDDO
+	DO LL=1,N
+	  IF(LL.NE.ICOL)THEN
+	    DUM=A(LL,ICOL)
+	    A(LL,ICOL)=0.0
+	    DO L=1,N
+	      A(LL,L)=A(LL,L)-A(ICOL,L)*DUM
+	      ENDDO
+	    DO L=1,M
+	      BETA(LL,L)=BETA(LL,L)-BETA(ICOL,L)*DUM
+	      ENDDO
+	    ENDIF
+	  ENDDO
+	  ENDDO
+
+	DO L=N,1,-1
+	  IF(INDXR(L).NE.INDXC(L))THEN
+	    DO K=1,N
+	      DUM=A(K,INDXR(L))
+	      A(K,INDXR(L))=A(K,INDXC(L))
+	      A(K,INDXC(L))=DUM
+	      ENDDO
+	    ENDIF
+	  ENDDO
+
+
+
+      RETURN
+      END

@@ -1,0 +1,35 @@
+The first line contains the latitude and longitude of the observing 
+site, in degrees (North and West are positive).
+
+The second line contains the uncertainties in the Right Ascension and
+Declination directions, respectively.
+
+The rest of the file contains the observation data. One 
+observation per line.
+
+First, the expected Right Ascension and Declination.
+Then the measured Right Ascension and Declination from the telescope.
+
+These values are in degrees.
+
+
+OuTPUT:
+
+1	 1	 HA 0 (Offset)
+2	 0	 HA 1 (Scale)
+3	 1	 Dec 0 (Offset)
+4	 0	 Dec 1 (Scale)
+5	 1	 Tube Square
+6	 1	 Mount Square
+7	 1	 Polar Axis NS
+8	 1	 Polar Axis EW
+9	 1	 Tube Flexure
+10	 0	 Fork Flexure
+11	 1	 DEC Axis Flexure
+12	 1	 HA SIN(HA)
+13	 0	 HA COS(HA)
+14	 0	 Dec SIN(Dec)
+15	 0	 Dec COS(Dec)
+16	 0	 Mount Square SIN(HA)
+17	 0	 Polar Axis NS SIN(HA)
+18	 1	 Polar Axis NS COS(HA)

@@ -83,7 +83,7 @@ C	SHOW RESULTS
 	  WRITE(*,52) I,A(I),SIGA(I)
 	  ENDDO
 
-52	FORMAT(I2,4X,F10.6,2X,F10.6)
+52	FORMAT(I2,4X,F14.6,2X,F14.6)
 53	FORMAT(' I         A           SigA')
 
 

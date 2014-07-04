@@ -19,7 +19,7 @@ static integer c__1 = 1;
 static integer c__3 = 3;
 
 /* 	Copyright Eric Fuller, 2001-2007 */
-/* Subroutine */ int getparam_(integer *ma, doublereal *a, integer *ai)
+/* Subroutine */ int getparam_(integer * ma, doublereal * a, integer * ai)
 {
     /* System generated locals */
     integer i__1;
@@ -27,8 +27,9 @@ static integer c__3 = 3;
     cllist cl__1;
 
     /* Builtin functions */
-    integer f_open(olist *), s_rsle(cilist *), do_lio(integer *, integer *, 
-	    char *, ftnlen), e_rsle(void), f_clos(cllist *);
+    integer f_open(olist *), s_rsle(cilist *), do_lio(integer *, integer *,
+						      char *, ftnlen),
+	e_rsle(void), f_clos(cllist *);
 
     /* Local variables */
     static integer i__;
@@ -56,8 +57,9 @@ static integer c__3 = 3;
     i__1 = *ma;
     for (i__ = 1; i__ <= i__1; ++i__) {
 	s_rsle(&io___2);
-	do_lio(&c__5, &c__1, (char *)&a[i__], (ftnlen)sizeof(doublereal));
-	do_lio(&c__3, &c__1, (char *)&ai[i__], (ftnlen)sizeof(integer));
+	do_lio(&c__5, &c__1, (char *) &a[i__],
+	       (ftnlen) sizeof(doublereal));
+	do_lio(&c__3, &c__1, (char *) &ai[i__], (ftnlen) sizeof(integer));
 	e_rsle();
     }
     cl__1.cerr = 0;
@@ -65,11 +67,13 @@ static integer c__3 = 3;
     cl__1.csta = 0;
     f_clos(&cl__1);
     return 0;
-} /* getparam_ */
+}				/* getparam_ */
 
-/* Subroutine */ int getdata_(doublereal *phi, doublereal *rho, doublereal *
-	x1, doublereal *x2, doublereal *y1, doublereal *y2, doublereal *sig1, 
-	doublereal *sig2, integer *ndat)
+/* Subroutine */ int getdata_(doublereal * phi, doublereal * rho,
+			      doublereal *
+			      x1, doublereal * x2, doublereal * y1,
+			      doublereal * y2, doublereal * sig1,
+			      doublereal * sig2, integer * ndat)
 {
     /* Format strings */
     static char fmt_32[] = "(f12.6,4x,f12.6)";
@@ -82,9 +86,11 @@ static integer c__3 = 3;
     cllist cl__1;
 
     /* Builtin functions */
-    integer f_open(olist *), s_rsfe(cilist *), do_fio(integer *, char *, 
-	    ftnlen), e_rsfe(void), s_rsle(cilist *), do_lio(integer *, 
-	    integer *, char *, ftnlen), e_rsle(void);
+    integer f_open(olist *), s_rsfe(cilist *), do_fio(integer *, char *,
+						      ftnlen),
+	e_rsfe(void), s_rsle(cilist *), do_lio(integer *, integer *,
+					       char *, ftnlen),
+	e_rsle(void);
     double sqrt(doublereal), cos(doublereal);
     integer f_clos(cllist *), s_wsfe(cilist *), e_wsfe(void);
 
@@ -120,12 +126,12 @@ static integer c__3 = 3;
     o__1.oblnk = 0;
     f_open(&o__1);
     s_rsfe(&io___3);
-    do_fio(&c__1, (char *)&(*phi), (ftnlen)sizeof(doublereal));
-    do_fio(&c__1, (char *)&(*rho), (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &(*phi), (ftnlen) sizeof(doublereal));
+    do_fio(&c__1, (char *) &(*rho), (ftnlen) sizeof(doublereal));
     e_rsfe();
     s_rsfe(&io___4);
-    do_fio(&c__1, (char *)&xticks, (ftnlen)sizeof(doublereal));
-    do_fio(&c__1, (char *)&yticks, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &xticks, (ftnlen) sizeof(doublereal));
+    do_fio(&c__1, (char *) &yticks, (ftnlen) sizeof(doublereal));
     e_rsfe();
 /* 	WRITE(*,36) XTICKS,YTICKS */
     for (i__ = 1; i__ <= 1000; ++i__) {
@@ -133,23 +139,27 @@ static integer c__3 = 3;
 	if (i__1 != 0) {
 	    goto L20;
 	}
-	i__1 = do_lio(&c__5, &c__1, (char *)&x1[i__], (ftnlen)sizeof(
-		doublereal));
+	i__1 =
+	    do_lio(&c__5, &c__1, (char *) &x1[i__],
+		   (ftnlen) sizeof(doublereal));
 	if (i__1 != 0) {
 	    goto L20;
 	}
-	i__1 = do_lio(&c__5, &c__1, (char *)&x2[i__], (ftnlen)sizeof(
-		doublereal));
+	i__1 =
+	    do_lio(&c__5, &c__1, (char *) &x2[i__],
+		   (ftnlen) sizeof(doublereal));
 	if (i__1 != 0) {
 	    goto L20;
 	}
-	i__1 = do_lio(&c__5, &c__1, (char *)&y1[i__], (ftnlen)sizeof(
-		doublereal));
+	i__1 =
+	    do_lio(&c__5, &c__1, (char *) &y1[i__],
+		   (ftnlen) sizeof(doublereal));
 	if (i__1 != 0) {
 	    goto L20;
 	}
-	i__1 = do_lio(&c__5, &c__1, (char *)&y2[i__], (ftnlen)sizeof(
-		doublereal));
+	i__1 =
+	    do_lio(&c__5, &c__1, (char *) &y2[i__],
+		   (ftnlen) sizeof(doublereal));
 	if (i__1 != 0) {
 	    goto L20;
 	}
@@ -161,14 +171,14 @@ static integer c__3 = 3;
 	sig2[i__] = yticks / sqrt(3.f);
 /* 	  WRITE(*,*) X1(I),X2(I),Y1(I),Y2(I),SIG1(I),SIG2(I) */
     }
-L20:
+  L20:
     *ndat = i__ - 1;
     cl__1.cerr = 0;
     cl__1.cunit = 8;
     cl__1.csta = 0;
     f_clos(&cl__1);
     s_wsfe(&io___9);
-    do_fio(&c__1, (char *)&(*ndat), (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char *) &(*ndat), (ftnlen) sizeof(integer));
     e_wsfe();
 /* 	WRITE(0,33) PHI */
 /* 	WRITE(0,37) RHO */
@@ -178,9 +188,10 @@ L20:
 /* L36: */
 /* L37: */
     return 0;
-} /* getdata_ */
+}				/* getdata_ */
 
-/* Subroutine */ int model_(integer *ma, doublereal *a, doublereal *siga)
+/* Subroutine */ int model_(integer * ma, doublereal * a,
+			    doublereal * siga)
 {
     /* Format strings */
     static char fmt_60[] = "(i2,4x,f14.6,2x,f14.6)";
@@ -191,8 +202,9 @@ L20:
     cllist cl__1;
 
     /* Builtin functions */
-    integer f_open(olist *), s_wsfe(cilist *), do_fio(integer *, char *, 
-	    ftnlen), e_wsfe(void), f_clos(cllist *);
+    integer f_open(olist *), s_wsfe(cilist *), do_fio(integer *, char *,
+						      ftnlen),
+	e_wsfe(void), f_clos(cllist *);
 
     /* Local variables */
     static integer i__;
@@ -220,9 +232,9 @@ L20:
     i__1 = *ma;
     for (i__ = 1; i__ <= i__1; ++i__) {
 	s_wsfe(&io___11);
-	do_fio(&c__1, (char *)&i__, (ftnlen)sizeof(integer));
-	do_fio(&c__1, (char *)&a[i__], (ftnlen)sizeof(doublereal));
-	do_fio(&c__1, (char *)&siga[i__], (ftnlen)sizeof(doublereal));
+	do_fio(&c__1, (char *) &i__, (ftnlen) sizeof(integer));
+	do_fio(&c__1, (char *) &a[i__], (ftnlen) sizeof(doublereal));
+	do_fio(&c__1, (char *) &siga[i__], (ftnlen) sizeof(doublereal));
 	e_wsfe();
     }
     cl__1.cerr = 0;
@@ -230,5 +242,4 @@ L20:
     cl__1.csta = 0;
     f_clos(&cl__1);
     return 0;
-} /* model_ */
-
+}				/* model_ */

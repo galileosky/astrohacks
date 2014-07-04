@@ -17,10 +17,14 @@
 static integer c__1 = 1;
 
 /* 	Copyright Eric Fuller, 2001-2007 */
-/* Subroutine */ int calcchi_(doublereal *chisq, integer *ndat, doublereal *
-	x1, doublereal *x2, doublereal *afunc1, doublereal *afunc2, integer *
-	ma, doublereal *phi, doublereal *a, doublereal *z1, doublereal *z2, 
-	doublereal *y1, doublereal *y2, doublereal *sig1, doublereal *sig2)
+/* Subroutine */ int calcchi_(doublereal * chisq, integer * ndat,
+			      doublereal *
+			      x1, doublereal * x2, doublereal * afunc1,
+			      doublereal * afunc2, integer * ma,
+			      doublereal * phi, doublereal * a,
+			      doublereal * z1, doublereal * z2,
+			      doublereal * y1, doublereal * y2,
+			      doublereal * sig1, doublereal * sig2)
 {
     /* Format strings */
     static char fmt_50[] = "(\002Chi Squared       : \002,f6.1)";
@@ -30,13 +34,15 @@ static integer c__1 = 1;
     doublereal d__1, d__2;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen),
+	e_wsfe(void);
 
     /* Local variables */
     static integer i__, j;
     static doublereal sum1, sum2;
-    extern /* Subroutine */ int funcs_(doublereal *, doublereal *, doublereal 
-	    *, doublereal *, integer *, doublereal *);
+    extern /* Subroutine */ int funcs_(doublereal *, doublereal *, doublereal
+				       *, doublereal *, integer *,
+				       doublereal *);
 
     /* Fortran I/O blocks */
     static cilist io___5 = { 0, 6, 0, fmt_50, 0 };
@@ -77,8 +83,7 @@ static integer c__1 = 1;
 	*chisq = *chisq + d__1 * d__1 + d__2 * d__2;
     }
     s_wsfe(&io___5);
-    do_fio(&c__1, (char *)&(*chisq), (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &(*chisq), (ftnlen) sizeof(doublereal));
     e_wsfe();
     return 0;
-} /* calcchi_ */
-
+}				/* calcchi_ */

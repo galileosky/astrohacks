@@ -15,8 +15,10 @@
 /* 	Copyright Eric Fuller, 2001-2007 */
 /* 	This subroutine was derived from a subroutine of the same */
 /* 	name in Numerical Recipes in C */
-/* Subroutine */ int funcs_(doublereal *x1, doublereal *x2, doublereal *p1, 
-	doublereal *p2, integer *np, doublereal *phi)
+/* Subroutine */ int funcs_(doublereal * x1, doublereal * x2,
+			    doublereal * p1,
+			    doublereal * p2, integer * np,
+			    doublereal * phi)
 {
     /* Builtin functions */
     double cos(doublereal), tan(doublereal), sin(doublereal);
@@ -34,20 +36,21 @@
     p1[6] = tan(*x2 * .01745329252);
     p1[7] = -cos(*x1 * .01745329252) * tan(*x2 * .01745329252);
     p1[8] = sin(*x1 * .01745329252) * tan(*x2 * .01745329252);
-    p1[9] = cos(*phi * .01745329252) * sin(*x1 * .01745329252) / cos(*x2 * 
-	    .01745329252);
+    p1[9] = cos(*phi * .01745329252) * sin(*x1 * .01745329252) / cos(*x2 *
+								     .01745329252);
     p1[10] = 0.f;
-    p1[11] = -(cos(*phi * .01745329252) * cos(*x1 * .01745329252) + sin(*phi *
-	     .01745329252) * tan(*x2 * .01745329252));
+    p1[11] =
+	-(cos(*phi * .01745329252) * cos(*x1 * .01745329252) +
+	  sin(*phi * .01745329252) * tan(*x2 * .01745329252));
     p1[12] = sin(*x1 * .01745329252);
     p1[13] = cos(*x1 * .01745329252);
     p1[14] = 0.f;
     p1[15] = 0.f;
     p1[16] = tan(*x2 * .01745329252) * sin(*x1 * .01745329252);
-    p1[17] = -cos(*x1 * .01745329252) * tan(*x2 * .01745329252) * sin(*x1 * 
-	    .01745329252);
-    p1[18] = -cos(*x1 * .01745329252) * tan(*x2 * .01745329252) * cos(*x1 * 
-	    .01745329252);
+    p1[17] = -cos(*x1 * .01745329252) * tan(*x2 * .01745329252) * sin(*x1 *
+								      .01745329252);
+    p1[18] = -cos(*x1 * .01745329252) * tan(*x2 * .01745329252) * cos(*x1 *
+								      .01745329252);
     p2[1] = 0.f;
     p2[2] = 0.f;
     p2[3] = 1.f;
@@ -56,9 +59,9 @@
     p2[6] = 0.f;
     p2[7] = sin(*x1 * .01745329252);
     p2[8] = cos(*x1 * .01745329252);
-    p2[9] = cos(*phi * .01745329252) * cos(*x1 * .01745329252) * sin(*x2 * 
-	    .01745329252) - sin(*phi * .01745329252) * cos(*x2 * .01745329252)
-	    ;
+    p2[9] = cos(*phi * .01745329252) * cos(*x1 * .01745329252) * sin(*x2 *
+								     .01745329252)
+	- sin(*phi * .01745329252) * cos(*x2 * .01745329252);
     p2[10] = cos(*x1 * .01745329252);
     p2[11] = 0.f;
     p2[12] = 0.f;
@@ -69,5 +72,4 @@
     p2[17] = sin(*x1 * .01745329252) * sin(*x1 * .01745329252);
     p2[18] = sin(*x1 * .01745329252) * cos(*x1 * .01745329252);
     return 0;
-} /* funcs_ */
-
+}				/* funcs_ */

@@ -17,17 +17,19 @@
 static integer c__1 = 1;
 
 /* 	Copyright Eric Fuller, 2001-2007 */
-/* Subroutine */ int stats_(integer *ndat, integer *mfit, doublereal *x1, 
-	doublereal *x2, doublereal *y1, doublereal *y2, doublereal *z1, 
-	doublereal *z2)
+/* Subroutine */ int stats_(integer * ndat, integer * mfit,
+			    doublereal * x1,
+			    doublereal * x2, doublereal * y1,
+			    doublereal * y2, doublereal * z1,
+			    doublereal * z2)
 {
     /* Format strings */
-    static char fmt_30[] = "(\002                      SD(X)        SD(Y)   "
-	    "     PSD\002)";
-    static char fmt_40[] = "(\002Raw Pointing      : \002,f8.3,4x,f8.3,4x,f8"
-	    ".3)";
-    static char fmt_42[] = "(\002Fixed Pointing    : \002,f8.3,4x,f8.3,4x,f8"
-	    ".3)";
+    static char fmt_30[] =
+	"(\002                      SD(X)        SD(Y)   " "     PSD\002)";
+    static char fmt_40[] =
+	"(\002Raw Pointing      : \002,f8.3,4x,f8.3,4x,f8" ".3)";
+    static char fmt_42[] =
+	"(\002Fixed Pointing    : \002,f8.3,4x,f8.3,4x,f8" ".3)";
 
     /* System generated locals */
     integer i__1;
@@ -92,15 +94,15 @@ static integer c__1 = 1;
     tmq = (doublereal) (*ndat / (*ndat - *mfit));
     s_wsfe(&io___8);
     d__1 = tmp * 60.f;
-    do_fio(&c__1, (char *)&d__1, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__1, (ftnlen) sizeof(doublereal));
     d__2 = sd * 60.f;
-    do_fio(&c__1, (char *)&d__2, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__2, (ftnlen) sizeof(doublereal));
 /* Computing 2nd power */
     d__4 = tmp;
 /* Computing 2nd power */
     d__5 = sd;
     d__3 = sqrt(d__4 * d__4 + d__5 * d__5) * 60.f * sqrt(tmq);
-    do_fio(&c__1, (char *)&d__3, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__3, (ftnlen) sizeof(doublereal));
     e_wsfe();
 /* 	SHOW FIXED POINTING STATISTICS */
     sum = 0.f;
@@ -135,16 +137,15 @@ static integer c__1 = 1;
     tmq = (doublereal) (*ndat / (*ndat - *mfit));
     s_wsfe(&io___9);
     d__1 = tmp * 60;
-    do_fio(&c__1, (char *)&d__1, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__1, (ftnlen) sizeof(doublereal));
     d__2 = sd * 60.f;
-    do_fio(&c__1, (char *)&d__2, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__2, (ftnlen) sizeof(doublereal));
 /* Computing 2nd power */
     d__4 = tmp;
 /* Computing 2nd power */
     d__5 = sd;
     d__3 = sqrt(d__4 * d__4 + d__5 * d__5) * 60.f * sqrt(tmq);
-    do_fio(&c__1, (char *)&d__3, (ftnlen)sizeof(doublereal));
+    do_fio(&c__1, (char *) &d__3, (ftnlen) sizeof(doublereal));
     e_wsfe();
     return 0;
-} /* stats_ */
-
+}				/* stats_ */

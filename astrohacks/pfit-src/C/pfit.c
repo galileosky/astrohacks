@@ -33,38 +33,44 @@ static integer c__1 = 1;
 
     /* Builtin functions */
     double sqrt(doublereal);
-    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *, ftnlen);
+    integer s_wsfe(cilist *), e_wsfe(void), do_fio(integer *, char *,
+						   ftnlen);
     /* Subroutine */ int s_stop(char *, ftnlen);
 
     /* Local variables */
-    extern /* Subroutine */ int getparam_(integer *, doublereal *, integer *);
+    extern /* Subroutine */ int getparam_(integer *, doublereal *,
+					  integer *);
     static doublereal a[20];
     static integer i__, j, l;
-    static doublereal x1[1000], y1[1000], x2[1000], y2[1000], z1[1000], z2[
-	    1000];
+    static doublereal x1[1000], y1[1000], x2[1000], y2[1000], z1[1000],
+	z2[1000];
     static integer ai[20], ma;
-    static doublereal phi, rho, sig1[1000], sig2[1000], beta[20], siga[1000];
+    static doublereal phi, rho, sig1[1000], sig2[1000], beta[20],
+	siga[1000];
     static integer ndat, mfit;
-    extern /* Subroutine */ int sort_(integer *, integer *, integer *, 
-	    doublereal *, doublereal *), build_(integer *, integer *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
-	     doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *)
-	    , model_(integer *, doublereal *, doublereal *);
-    static doublereal chisq, covar[400]	/* was [20][20] */;
-    extern /* Subroutine */ int stats_(integer *, integer *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *);
+    extern /* Subroutine */ int sort_(integer *, integer *, integer *,
+				      doublereal *, doublereal *),
+	build_(integer *, integer *, doublereal *, doublereal *,
+	       doublereal *, doublereal *, integer *, doublereal *,
+	       doublereal *, doublereal *, doublereal *, doublereal *,
+	       doublereal *, doublereal *, doublereal *, integer *)
+    , model_(integer *, doublereal *, doublereal *);
+    static doublereal chisq, covar[400] /* was [20][20] */ ;
+    extern /* Subroutine */ int stats_(integer *, integer *, doublereal *,
+				       doublereal *, doublereal *,
+				       doublereal *, doublereal *,
+				       doublereal *);
     static doublereal afunc1[20], afunc2[20];
-    extern /* Subroutine */ int gaussj_(doublereal *, integer *, integer *, 
-	    doublereal *), covsrt_(doublereal *, integer *, integer *, 
-	    integer *, integer *), calcchi_(doublereal *, integer *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *,
-	     doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *), getdata_(
-	    doublereal *, doublereal *, doublereal *, doublereal *, 
-	    doublereal *, doublereal *, doublereal *, doublereal *, integer *)
-	    ;
+    extern /* Subroutine */ int gaussj_(doublereal *, integer *, integer *,
+					doublereal *),
+	covsrt_(doublereal *, integer *, integer *, integer *, integer *),
+	calcchi_(doublereal *, integer *, doublereal *, doublereal *,
+		 doublereal *, doublereal *, integer *, doublereal *,
+		 doublereal *, doublereal *, doublereal *, doublereal *,
+		 doublereal *, doublereal *, doublereal *),
+	getdata_(doublereal *, doublereal *, doublereal *, doublereal *,
+		 doublereal *, doublereal *, doublereal *, doublereal *,
+		 integer *);
 
     /* Fortran I/O blocks */
     static cilist io___25 = { 0, 6, 0, fmt_53, 0 };
@@ -75,8 +81,8 @@ static integer c__1 = 1;
     getparam_(&ma, a, ai);
     sort_(&mfit, &ma, ai, covar, beta);
     getdata_(&phi, &rho, x1, x2, y1, y2, sig1, sig2, &ndat);
-    build_(&ndat, &mfit, x1, x2, afunc1, afunc2, &ma, &phi, y1, y2, sig1, 
-	    sig2, covar, beta, a, ai);
+    build_(&ndat, &mfit, x1, x2, afunc1, afunc2, &ma, &phi, y1, y2, sig1,
+	   sig2, covar, beta, a, ai);
 /* 	SOLVE MATRIX */
     gaussj_(covar, &mfit, &c__20, beta);
     j = 0;
@@ -91,10 +97,11 @@ static integer c__1 = 1;
     covsrt_(covar, &c__20, &ma, ai, &mfit);
     i__1 = ma;
     for (i__ = 1; i__ <= i__1; ++i__) {
-	siga[i__ - 1] = sqrt((d__1 = covar[i__ + i__ * 20 - 21], abs(d__1)));
+	siga[i__ - 1] =
+	    sqrt((d__1 = covar[i__ + i__ * 20 - 21], abs(d__1)));
     }
-    calcchi_(&chisq, &ndat, x1, x2, afunc1, afunc2, &ma, &phi, a, z1, z2, y1, 
-	    y2, sig1, sig2);
+    calcchi_(&chisq, &ndat, x1, x2, afunc1, afunc2, &ma, &phi, a, z1, z2,
+	     y1, y2, sig1, sig2);
     stats_(&ndat, &mfit, x1, x2, y1, y2, z1, z2);
 /* 	SHOW RESULTS */
     s_wsfe(&io___25);
@@ -102,14 +109,19 @@ static integer c__1 = 1;
     i__1 = ma;
     for (i__ = 1; i__ <= i__1; ++i__) {
 	s_wsfe(&io___26);
-	do_fio(&c__1, (char *)&i__, (ftnlen)sizeof(integer));
-	do_fio(&c__1, (char *)&a[i__ - 1], (ftnlen)sizeof(doublereal));
-	do_fio(&c__1, (char *)&siga[i__ - 1], (ftnlen)sizeof(doublereal));
+	do_fio(&c__1, (char *) &i__, (ftnlen) sizeof(integer));
+	do_fio(&c__1, (char *) &a[i__ - 1], (ftnlen) sizeof(doublereal));
+	do_fio(&c__1, (char *) &siga[i__ - 1],
+	       (ftnlen) sizeof(doublereal));
 	e_wsfe();
     }
     model_(&ma, a, siga);
-    s_stop("", (ftnlen)0);
+    s_stop("", (ftnlen) 0);
     return 0;
-} /* MAIN__ */
+}				/* MAIN__ */
 
-/* Main program alias */ int pfit_ () { MAIN__ (); return 0; }
+/* Main program alias */ int pfit_()
+{
+    MAIN__();
+    return 0;
+}

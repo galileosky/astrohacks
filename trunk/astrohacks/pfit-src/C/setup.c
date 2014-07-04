@@ -19,8 +19,8 @@ static integer c__1 = 1;
 /* 	Copyright Eric Fuller, 2001-2007 */
 /* 	This subroutine was derived from an example in */
 /* 	Numerical Recipes in C */
-/* Subroutine */ int sort_(integer *mfit, integer *ma, integer *ai, 
-	doublereal *covar, doublereal *beta)
+/* Subroutine */ int sort_(integer * mfit, integer * ma, integer * ai,
+			   doublereal * covar, doublereal * beta)
 {
     /* Format strings */
     static char fmt_10[] = "(\002Fitted Parameters : \002,i5)";
@@ -29,7 +29,8 @@ static integer c__1 = 1;
     integer i__1, i__2;
 
     /* Builtin functions */
-    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen), e_wsfe(void);
+    integer s_wsfe(cilist *), do_fio(integer *, char *, ftnlen),
+	e_wsfe(void);
     /* Subroutine */ int s_paus(char *, ftnlen);
 
     /* Local variables */
@@ -54,10 +55,10 @@ static integer c__1 = 1;
 	}
     }
     s_wsfe(&io___2);
-    do_fio(&c__1, (char *)&(*mfit), (ftnlen)sizeof(integer));
+    do_fio(&c__1, (char *) &(*mfit), (ftnlen) sizeof(integer));
     e_wsfe();
     if (*mfit == 0) {
-	s_paus("No Parameters to be fitted.", (ftnlen)27);
+	s_paus("No Parameters to be fitted.", (ftnlen) 27);
     }
     i__1 = *mfit;
     for (j = 1; j <= i__1; ++j) {
@@ -68,13 +69,17 @@ static integer c__1 = 1;
 	beta[j] = 0.f;
     }
     return 0;
-} /* sort_ */
+}				/* sort_ */
 
-/* Subroutine */ int build_(integer *ndat, integer *mfit, doublereal *x1, 
-	doublereal *x2, doublereal *afunc1, doublereal *afunc2, integer *ma, 
-	doublereal *phi, doublereal *y1, doublereal *y2, doublereal *sig1, 
-	doublereal *sig2, doublereal *covar, doublereal *beta, doublereal *a, 
-	integer *ai)
+/* Subroutine */ int build_(integer * ndat, integer * mfit,
+			    doublereal * x1,
+			    doublereal * x2, doublereal * afunc1,
+			    doublereal * afunc2, integer * ma,
+			    doublereal * phi, doublereal * y1,
+			    doublereal * y2, doublereal * sig1,
+			    doublereal * sig2, doublereal * covar,
+			    doublereal * beta, doublereal * a,
+			    integer * ai)
 {
     /* System generated locals */
     integer i__1, i__2, i__3;
@@ -83,8 +88,9 @@ static integer c__1 = 1;
     /* Local variables */
     static integer i__, j, k, l, m;
     static doublereal ym1, ym2, wt1, wt2, sig2i1, sig2i2;
-    extern /* Subroutine */ int funcs_(doublereal *, doublereal *, doublereal 
-	    *, doublereal *, integer *, doublereal *);
+    extern /* Subroutine */ int funcs_(doublereal *, doublereal *, doublereal
+				       *, doublereal *, integer *,
+				       doublereal *);
 
 /* 	BUILD MATRIX */
     /* Parameter adjustments */
@@ -134,8 +140,9 @@ static integer c__1 = 1;
 		for (m = 1; m <= i__3; ++m) {
 		    if (ai[m] != 0) {
 			++k;
-			covar[j + k * 20] = covar[j + k * 20] + wt1 * afunc1[
-				m] + wt2 * afunc2[m];
+			covar[j + k * 20] =
+			    covar[j + k * 20] + wt1 * afunc1[m] +
+			    wt2 * afunc2[m];
 		    }
 		}
 		beta[j] = beta[j] + ym1 * wt1 + ym2 * wt2;
@@ -150,5 +157,4 @@ static integer c__1 = 1;
 	}
     }
     return 0;
-} /* build_ */
-
+}				/* build_ */

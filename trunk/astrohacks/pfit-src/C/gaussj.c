@@ -15,8 +15,8 @@
 /* 	Copyright Eric Fuller, 2001-2007 */
 /* 	This subroutine was derived from a subroutine of the same */
 /* 	name in Numerical Recipes in C */
-/* Subroutine */ int gaussj_(doublereal *a, integer *n, integer *np, 
-	doublereal *beta)
+/* Subroutine */ int gaussj_(doublereal * a, integer * n, integer * np,
+			     doublereal * beta)
 {
     /* System generated locals */
     integer a_dim1, a_offset, beta_dim1, beta_offset, i__1, i__2, i__3;
@@ -63,7 +63,7 @@
 			    icol = k;
 			}
 		    } else if (ipiv[k - 1] > 1) {
-			s_paus("Singular matrix in gaussj.", (ftnlen)26);
+			s_paus("Singular matrix in gaussj.", (ftnlen) 26);
 		    }
 		}
 	    }
@@ -85,7 +85,7 @@
 	indxr[i__ - 1] = irow;
 	indxc[i__ - 1] = icol;
 	if (a[icol + icol * a_dim1] == 0.f) {
-	    s_paus("Singular matrix in gaussj.", (ftnlen)26);
+	    s_paus("Singular matrix in gaussj.", (ftnlen) 26);
 	}
 	pivinv = 1.f / a[icol + icol * a_dim1];
 	a[icol + icol * a_dim1] = 1.f;
@@ -106,8 +106,8 @@
 		    a[ll + l * a_dim1] -= a[icol + l * a_dim1] * dum;
 		}
 		for (l = 1; l <= 1; ++l) {
-		    beta[ll + l * beta_dim1] -= beta[icol + l * beta_dim1] * 
-			    dum;
+		    beta[ll + l * beta_dim1] -=
+			beta[icol + l * beta_dim1] * dum;
 		}
 	    }
 	}
@@ -117,11 +117,11 @@
 	    i__1 = *n;
 	    for (k = 1; k <= i__1; ++k) {
 		dum = a[k + indxr[l - 1] * a_dim1];
-		a[k + indxr[l - 1] * a_dim1] = a[k + indxc[l - 1] * a_dim1];
+		a[k + indxr[l - 1] * a_dim1] =
+		    a[k + indxc[l - 1] * a_dim1];
 		a[k + indxc[l - 1] * a_dim1] = dum;
 	    }
 	}
     }
     return 0;
-} /* gaussj_ */
-
+}				/* gaussj_ */

@@ -15,8 +15,9 @@
 /* 	Copyright Eric Fuller, 2001-2007 */
 /* 	This subroutine is derived from a subroutine of the same */
 /* 	name in Numerical Recipes in C */
-/* Subroutine */ int covsrt_(doublereal *covar, integer *npc, integer *ma, 
-	integer *ai, integer *mfit)
+/* Subroutine */ int covsrt_(doublereal * covar, integer * npc,
+			     integer * ma,
+			     integer * ai, integer * mfit)
 {
     /* System generated locals */
     integer covar_dim1, covar_offset, i__1, i__2;
@@ -59,5 +60,4 @@
 	}
     }
     return 0;
-} /* covsrt_ */
-
+}				/* covsrt_ */

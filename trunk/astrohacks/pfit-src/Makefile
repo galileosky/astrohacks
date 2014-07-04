@@ -1,7 +1,7 @@
 PROG	= pfit
 
 OBJS	= pfit.o funcs.o gaussj.o covsrt.o file.o \
-  chisq.o plot.o stats.o setup.o
+  chisq.o stats.o setup.o
 
 CFLAGS	= -w -O2 -c
 LFLAGS	= 
@@ -32,9 +32,6 @@ file.o	: file.f pfit.cmn
 
 chisq.o	: chisq.f pfit.cmn
 	  $(CC) $(CFLAGS) chisq.f
-
-plot.o	: plot.f pfit.cmn
-	  $(CC) $(CFLAGS) plot.f
 
 stats.o	: stats.f pfit.cmn
 	  $(CC) $(CFLAGS) stats.f

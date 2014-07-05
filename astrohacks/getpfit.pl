@@ -112,8 +112,8 @@ while ( $master_count <= 10 and !$altTooLow ) {
     my $decIdx = $master_count % 3;
     my $raIdx  = POSIX::floor( $master_count / 3 );
 
-    my $newRa  = $orig_ra +  ( $raIdx * 10 );
-    my $newDec = $orig_dec + ( $decIdx * 10 );
+    my $newRa  = $orig_ra +  ( $raIdx * 5 );
+    my $newDec = $orig_dec + ( $decIdx * 5 );
 
     print STDERR "Slewing to RA/DEC $newRa $newDec\n";
     Astro::slew( $port, $newRa, $newDec );
@@ -158,6 +158,7 @@ while ( $master_count <= 10 and !$altTooLow ) {
     }
     else {
         print STDERR "Failed to solve\n";
+        $master_count++;
     }
 
     # stay above 25 degrees so that refraction is less of a factor

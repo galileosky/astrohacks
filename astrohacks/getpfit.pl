@@ -117,13 +117,14 @@ while ( $master_count <= 10 and !$altTooLow ) {
 
     print STDERR "Slewing to RA/DEC $newRa $newDec\n";
     Astro::slew( $port, $newRa, $newDec );
-    sleep(10);
+    sleep(5);
 
     my $mount_ra  = Astro::getRA($port);
     my $mount_dec = Astro::getDEC($port);
 
     my $mount_alt = Astro::getALT($port);
-    if ( $mount_alt < 25 ) {
+    if ( $mount_alt < 15 ) {
+        print STDERR "Altitude too low\n";
         last;
     }
 

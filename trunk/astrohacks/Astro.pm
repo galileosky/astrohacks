@@ -63,6 +63,10 @@ our $FWVERSION = "G";
 our $PATH_TO_TESTAPP = "/home/orly/astrometry-data/testapp";
 our $PATH_TO_DSICMD  = "/home/orly/astrometry-data/dsicmd";
 
+# change these depending on your Astrometry.NET local installation
+our $ngc_names = "/usr/local/astrometry/data/ngc2000names.dat";
+our $ngc_pos   = "/usr/local/astrometry/data/ngc2000_pos.txt";
+
 # longitude is in degrees! (not turns)
 # we have a hard-coded value..
 our $LONGITUDE = +103.8;
@@ -346,7 +350,7 @@ sub conv_RA_to_decimal {
         $s = $3;
 
         my $dec = ( $h * 15 ) + ( $m / 4 ) + ( $s / 240 );
-        return ($dec);
+        return ( sprintf( "%3.4f", $dec ) );
     }
     return (-1);
 }
@@ -383,7 +387,7 @@ sub conv_DEC_to_decimal {
             $decimal *= -1;
         }
 
-        return ($decimal);
+        return ( sprintf( "%3.4f", $decimal ) );
     }
     return (-1);
 }
@@ -699,4 +703,65 @@ sub calcRefractedRate {
     return ($correctedRate);
 }
 
+# find RA/DEC based on common name
+sub getObjRADEC {
+    my ($name) = @_;
+
+    if ( length($name) < 3 ) {
+        return (undef);
+    }
+
+    my @ret = `grep -i '$name' $ngc_names`;
+
+    my $chosen = $ret[0];
+    if ( $#ret >= 1 ) {
+        print STDERR "Ambiguous search term, possible results:\n";
+        print STDERR @ret, "\n";
+        return (undef);
+    }
+    chomp($chosen) if defined($chosen);
+
+    my $objname = undef;
+    my $objnum  = 0;
+
+    if ( defined($chosen) and $chosen =~ /^(.+)\s+(\d+)/ ) {
+        $objname = $1;
+        $objnum  = $2;
+
+        $objname =~ s/\s+$//g;
+    }
+
+    if ( $objnum == 0 ) {
+        return (undef);
+    }
+
+    # search for coordinates
+    my $objDetails = `grep -i 'N$objnum' $ngc_pos`;
+    chomp($objDetails);
+
+    # parse
+    my ( $raHH,   $raMM,   $raSS );
+    my ( $decDEG, $decMIN, $decSS );
+
+    my @det = split( /\s+/, $objDetails );
+
+    $raHH   = $det[1];
+    $raMM   = $det[2];
+    $raSS   = $det[3];
+    $decDEG = $det[4];
+    $decMIN = $det[5];
+    $decSS  = $det[6];
+
+# if declination seconds is parsed properly, then all should have been parsed properly
+    if ( length($decSS) > 2 ) {
+        my $decDMS = "$decDEG*$decMIN:$decSS";
+        my $raHMS  = "$raHH:$raMM:$raSS";
+
+        my $ra  = Astro::conv_RA_to_decimal($raHMS);
+        my $dec = Astro::conv_DEC_to_decimal($decDMS);
+
+        return ( $ra, $dec, $objname, $objnum );
+    }
+    return (undef);
+}
 1;
